@@ -1,4 +1,5 @@
 import {useMemo, useState} from 'react'
+import {FiSidebar} from 'react-icons/fi'
 import styled, {createGlobalStyle} from 'styled-components'
 import {BandsList} from './components/BandsList'
 import {InfoPanel} from './components/InfoPanel'
@@ -11,6 +12,7 @@ export const App = () => {
   const {bands, loading, error} = useBands()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedGenre, setSelectedGenre] = useState(ALL_GENRES)
+  const [isInfoPanelOpen, setIsInfoPanelOpen] = useState(true)
 
   const genres = useMemo(
     () => Array.from(new Set(bands.map(({genre}) => genre))).sort(),
@@ -43,12 +45,26 @@ export const App = () => {
           onGenreChange={setSelectedGenre}
         />
 
-        <MainLayout>
+        <MainLayout $panelOpen={isInfoPanelOpen}>
           <BandSection>
+            {!isInfoPanelOpen && (
+              <RestorePanelRow>
+                <RestorePanelButton
+                  type="button"
+                  onClick={() => setIsInfoPanelOpen(true)}
+                >
+                  <FiSidebar />
+                  Show info panel
+                </RestorePanelButton>
+              </RestorePanelRow>
+            )}
+
             <BandsList bands={filteredBands} loading={loading} error={error} />
           </BandSection>
 
-          <InfoPanel />
+          {isInfoPanelOpen && (
+            <InfoPanel onClose={() => setIsInfoPanelOpen(false)} />
+          )}
         </MainLayout>
       </AppShell>
     </>
@@ -86,9 +102,10 @@ const AppShell = styled.div`
   }
 `
 
-const MainLayout = styled.main`
+const MainLayout = styled.main<{$panelOpen: boolean}>`
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 280px);
+  grid-template-columns: ${({$panelOpen}) =>
+    $panelOpen ? 'minmax(0, 1fr) minmax(260px, 280px)' : 'minmax(0, 1fr)'};
   gap: 26px;
   max-width: 1280px;
   margin: 0 auto;
@@ -100,4 +117,39 @@ const MainLayout = styled.main`
 
 const BandSection = styled.section`
   min-width: 0;
+`
+
+const RestorePanelRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+`
+
+const RestorePanelButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  border: 0;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #1a1b1b;
+  color: #d5dcda;
+  font-size: 14px;
+  cursor: pointer;
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background: #242827;
+    color: #f0f3f2;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #e7fffb;
+    outline-offset: 2px;
+  }
 `

@@ -1,11 +1,15 @@
 import styled from 'styled-components'
 import {FiActivity, FiX} from 'react-icons/fi'
 
-export const InfoPanel = () => (
+interface InfoPanelProps {
+  onClose: () => void
+}
+
+export const InfoPanel = ({onClose}: InfoPanelProps) => (
   <Panel>
     <InfoPanelHeader>
       <PanelTitle>Welcome to Lyric Music</PanelTitle>
-      <CloseIcon type="button" aria-label="Close panel" disabled>
+      <CloseIcon type="button" aria-label="Close panel" onClick={onClose}>
         <FiX />
       </CloseIcon>
     </InfoPanelHeader>
@@ -79,15 +83,20 @@ const CloseIcon = styled.button`
   padding: 0;
   background: transparent;
   color: #c9cccb;
-  cursor: default;
+  cursor: pointer;
 
   svg {
     width: 18px;
     height: 18px;
   }
 
-  &:disabled {
-    opacity: 1;
+  &:hover {
+    color: #f0f3f2;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #e7fffb;
+    outline-offset: 2px;
   }
 `
 
