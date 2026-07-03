@@ -11,6 +11,7 @@ export interface Band {
   album: string
   genre: string
   description: string
+  imageUrl: string
 }
 
 export interface BandDetail {

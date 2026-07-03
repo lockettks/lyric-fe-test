@@ -15,6 +15,17 @@ export const BandsList = () => {
     <ul>
       {bands.map((band) => (
         <li key={band.id}>
+          <img
+            src={band.imageUrl}
+            alt={band.bandName}
+            onError={(event) => {
+              if (event.currentTarget.src.endsWith('/sources/default.png')) {
+                return
+              }
+
+              event.currentTarget.src = '/sources/default.png'
+            }}
+          />
           {band.bandName} - {band.album} - {band.genre}
           <p>{band.description}</p>
         </li>
