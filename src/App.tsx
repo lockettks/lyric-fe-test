@@ -1,24 +1,59 @@
+import {useMemo, useState} from 'react'
 import styled, {createGlobalStyle} from 'styled-components'
 import {BandsList} from './components/BandsList'
 import {InfoPanel} from './components/InfoPanel'
 import {TopBar} from './components/TopBar'
+import {useBands} from './hooks/useBands'
 
-export const App = () => (
-  <>
-    <GlobalStyle />
-    <AppShell>
-      <TopBar />
+const ALL_GENRES = 'all'
 
-      <MainLayout>
-        <BandSection>
-          <BandsList />
-        </BandSection>
+export const App = () => {
+  const {bands, loading, error} = useBands()
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedGenre, setSelectedGenre] = useState(ALL_GENRES)
 
-        <InfoPanel />
-      </MainLayout>
-    </AppShell>
-  </>
-)
+  const genres = useMemo(
+    () => Array.from(new Set(bands.map(({genre}) => genre))).sort(),
+    [bands],
+  )
+
+  const filteredBands = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase()
+
+    return bands.filter((band) => {
+      const matchesSearch =
+        normalizedQuery.length === 0 ||
+        band.bandName.toLowerCase().includes(normalizedQuery)
+      const matchesGenre =
+        selectedGenre === ALL_GENRES || band.genre === selectedGenre
+
+      return matchesSearch && matchesGenre
+    })
+  }, [bands, searchQuery, selectedGenre])
+
+  return (
+    <>
+      <GlobalStyle />
+      <AppShell>
+        <TopBar
+          genres={genres}
+          searchQuery={searchQuery}
+          selectedGenre={selectedGenre}
+          onSearchChange={setSearchQuery}
+          onGenreChange={setSelectedGenre}
+        />
+
+        <MainLayout>
+          <BandSection>
+            <BandsList bands={filteredBands} loading={loading} error={error} />
+          </BandSection>
+
+          <InfoPanel />
+        </MainLayout>
+      </AppShell>
+    </>
+  )
+}
 
 const GlobalStyle = createGlobalStyle`
   * {

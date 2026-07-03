@@ -1,15 +1,23 @@
 import styled from 'styled-components'
-import {useBands} from '../hooks/useBands'
+import type {Band} from '../types/band'
 
-export const BandsList = () => {
-  const {bands, loading, error} = useBands()
+interface BandsListProps {
+  bands: Band[]
+  loading: boolean
+  error: Error | null
+}
 
+export const BandsList = ({bands, loading, error}: BandsListProps) => {
   if (loading) {
     return <StatusMessage>Loading bands...</StatusMessage>
   }
 
   if (error) {
     return <StatusMessage>Unable to load bands.</StatusMessage>
+  }
+
+  if (bands.length === 0) {
+    return <StatusMessage>No bands match your filters.</StatusMessage>
   }
 
   return (

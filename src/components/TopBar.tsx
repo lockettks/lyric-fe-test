@@ -1,37 +1,91 @@
+import {useRef} from 'react'
 import styled from 'styled-components'
-import {FiBell, FiMessageCircle, FiSearch, FiSettings} from 'react-icons/fi'
+import {FiBell, FiMessageCircle, FiSearch, FiSettings, FiX} from 'react-icons/fi'
 
-const genrePreviewItems = ['All', 'Country', 'Rock', 'Pop']
+interface TopBarProps {
+  genres: string[]
+  searchQuery: string
+  selectedGenre: string
+  onSearchChange: (query: string) => void
+  onGenreChange: (genre: string) => void
+}
 
-export const TopBar = () => (
-  <TopBarContainer>
-    <BrandMark src="/sources/lyric_lg_rgb_mnt_wht.png" alt="Lyric Music" />
+const capitalizeFirstLetter = (value: string) =>
+  `${value.charAt(0).toUpperCase()}${value.slice(1)}`
 
-    <GenrePreview aria-label="Genre filters preview">
-      {genrePreviewItems.map((item, index) => (
-        <GenrePill key={item} $active={index === 0} aria-disabled="true">
-          {item}
+export const TopBar = ({
+  genres,
+  searchQuery,
+  selectedGenre,
+  onSearchChange,
+  onGenreChange,
+}: TopBarProps) => {
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const clearSearch = () => {
+    onSearchChange('')
+    searchInputRef.current?.focus()
+  }
+
+  return (
+    <TopBarContainer>
+      <BrandMark src="/sources/lyric_lg_rgb_mnt_wht.png" alt="Lyric Music" />
+
+      <GenreFilters aria-label="Genre filters">
+        <GenrePill
+          type="button"
+          $active={selectedGenre === 'all'}
+          onClick={() => onGenreChange('all')}
+        >
+          All
         </GenrePill>
-      ))}
-    </GenrePreview>
+        {genres.map((genre) => (
+          <GenrePill
+            key={genre}
+            type="button"
+            $active={selectedGenre === genre}
+            onClick={() => onGenreChange(genre)}
+          >
+            {capitalizeFirstLetter(genre)}
+          </GenrePill>
+        ))}
+      </GenreFilters>
 
-    <SearchPreview aria-label="Search preview" aria-disabled="true">
-      <FiSearch />
-    </SearchPreview>
+      <SearchField>
+        <FiSearch />
+        <SearchInput
+          ref={searchInputRef}
+          type="search"
+          value={searchQuery}
+          placeholder="Search"
+          aria-label="Search bands by name"
+          onChange={({target}) => onSearchChange(target.value)}
+        />
+        {searchQuery.length > 0 && (
+          <ClearSearchButton
+            type="button"
+            aria-label="Clear search"
+            onClick={clearSearch}
+          >
+            <FiX />
+          </ClearSearchButton>
+        )}
+      </SearchField>
 
-    <HeaderIcons aria-label="Header actions preview">
-      <IconButton type="button" aria-label="Notifications" disabled>
-        <FiBell />
-      </IconButton>
-      <IconButton type="button" aria-label="Settings" disabled>
-        <FiSettings />
-      </IconButton>
-      <IconButton type="button" aria-label="Messages" disabled>
-        <FiMessageCircle />
-      </IconButton>
-    </HeaderIcons>
-  </TopBarContainer>
-)
+      <HeaderIcons aria-label="Header actions preview">
+        <IconButton type="button" aria-label="Notifications" disabled>
+          <FiBell />
+        </IconButton>
+        <IconButton type="button" aria-label="Settings" disabled>
+          <FiSettings />
+        </IconButton>
+        <IconButton type="button" aria-label="Messages" disabled>
+          <FiMessageCircle />
+        </IconButton>
+      </HeaderIcons>
+    </TopBarContainer>
+  )
+}
 
 const TopBarContainer = styled.header`
   display: flex;
@@ -60,7 +114,7 @@ const BrandMark = styled.img`
   flex: 0 0 auto;
 `
 
-const GenrePreview = styled.nav`
+const GenreFilters = styled.nav`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -74,9 +128,10 @@ const GenrePreview = styled.nav`
   }
 `
 
-const GenrePill = styled.span<{$active?: boolean}>`
+const GenrePill = styled.button<{$active?: boolean}>`
   min-width: 72px;
   padding: 8px 18px;
+  border: 0;
   border-radius: 999px;
   background: ${({$active}) => ($active ? '#008b7b' : '#1b1c1d')};
   color: ${({$active}) => ($active ? '#eefdf9' : '#c1c5c4')};
@@ -84,28 +139,35 @@ const GenrePill = styled.span<{$active?: boolean}>`
   line-height: 1;
   text-align: center;
   white-space: nowrap;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #e7fffb;
+    outline-offset: 2px;
+  }
 `
 
-const SearchPreview = styled.div`
+const SearchField = styled.div`
   display: flex;
   align-items: center;
-  width: min(170px, 18vw);
-  min-width: 120px;
+  width: clamp(220px, 24vw, 310px);
+  min-width: 180px;
   height: 32px;
-  margin-left: auto;
+  margin-left: 2px;
   padding: 0 12px;
   border-radius: 999px;
   background: #1a1b1b;
   color: #656b69;
 
   svg {
+    flex: 0 0 auto;
     width: 17px;
     height: 17px;
   }
 
   @media (max-width: 900px) {
     margin-left: 0;
-    flex: 1 1 180px;
+    flex: 1 1 260px;
   }
 
   @media (max-width: 520px) {
@@ -114,11 +176,64 @@ const SearchPreview = styled.div`
   }
 `
 
+const SearchInput = styled.input`
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  padding: 0 0 0 8px;
+  background: transparent;
+  color: #f0f3f2;
+  font-size: 14px;
+  outline: 0;
+
+  &::placeholder {
+    color: #656b69;
+  }
+
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+`
+
+const ClearSearchButton = styled.button`
+  display: grid;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #a8afac;
+  cursor: pointer;
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    color: #f0f3f2;
+    background: #272a29;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #e7fffb;
+    outline-offset: 2px;
+  }
+`
+
 const HeaderIcons = styled.div`
   display: flex;
   align-items: center;
   gap: 18px;
   flex: 0 0 auto;
+  margin-left: auto;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+  }
 `
 
 const IconButton = styled.button`
