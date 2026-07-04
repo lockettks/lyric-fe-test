@@ -29,7 +29,10 @@ export const TopBar = ({
 
   return (
     <TopBarContainer>
-      <BrandMark src="/sources/lyric_lg_rgb_mnt_wht.png" alt="Lyric Music" />
+      <BrandMark
+        src={`${import.meta.env.BASE_URL}sources/lyric_lg_rgb_mnt_wht.png`}
+        alt="Lyric Music"
+      />
 
       <GenreFilters aria-label="Genre filters">
         <GenrePill
