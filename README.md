@@ -1,75 +1,94 @@
-# React + TypeScript + Vite
+# Lyric FE Test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React/Vite implementation of the Lyric Music take-home assignment. The app
+renders a responsive band grid from local mock data, supports live search and
+genre filtering, and includes a dismissible right-hand info panel.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20 or newer
+- pnpm 10
 
-## React Compiler
+This repo includes a `pnpm-lock.yaml` and declares the expected pnpm version in
+`package.json`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- Styled Components
+- React Icons
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the local development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+pnpm dev
 ```
+
+Vite will print the local URL, usually:
+
+```text
+http://localhost:5173/
+```
+
+If that port is already in use, Vite will choose the next available port.
+
+## Useful Commands
+
+Run lint checks:
+
+```bash
+pnpm lint
+```
+
+Build the production bundle:
+
+```bash
+pnpm build
+```
+
+Preview the production build locally:
+
+```bash
+pnpm preview
+```
+
+
+## Project Notes
+
+- Band data is loaded from `mock_data/bands.json`.
+- Individual band details are loaded from `mock_data/[id].json` when present.
+- Band images are matched by ID from `sources/im[id].png`.
+- Missing artwork falls back to `sources/default.png`.
+- The right-hand info panel can be closed and reopened.
+- Where the assignment requirements were ambiguous, reasonable implementation assumptions are documented below.
+- The provided assets did not include a favicon, so I used the publicly available favicon from the Lyric website.
+
+## Assumptions
+
+A few aspects of the assignment were ambiguous. I reached out for clarification but did not receive a response before completing the exercise, so I made the following implementation decisions:
+
+- Implemented the search bar and genre filters as functional, since the task description later specifies their expected behavior.
+- Displayed the album name from `bands.json` and ignored the album field in the individual band detail files.
+- Displayed each band's genre in place of a year because the mock data does not include dates, and the genre is useful for validating the filter behavior.
+- Used the band's description from the individual detail JSON when available; otherwise the application displays "No description."
+- Implemented the stretch goal by allowing the right-hand information panel to be dismissed and restored.
+
+
+## Future Improvements
+
+If this were a production application, the next areas I'd focus on would be:
+
+- Automated unit and component tests.
+- A shared design theme (colors, typography, spacing tokens).
+- Improved accessibility (keyboard navigation and ARIA enhancements).
+

@@ -96,7 +96,7 @@ const TopBarContainer = styled.header`
   margin: 0 auto 22px;
   padding: 14px 22px;
   border-radius: 8px;
-  background: #101112;
+  background: #0f0f0f;
 
   @media (max-width: 900px) {
     flex-wrap: wrap;
@@ -133,7 +133,7 @@ const GenrePill = styled.button<{$active?: boolean}>`
   padding: 8px 18px;
   border: 0;
   border-radius: 999px;
-  background: ${({$active}) => ($active ? '#008b7b' : '#1b1c1d')};
+  background: ${({$active}) => ($active ? '#008f80' : '#1c1c1c')};
   color: ${({$active}) => ($active ? '#eefdf9' : '#c1c5c4')};
   font-size: 14px;
   line-height: 1;
@@ -150,19 +150,19 @@ const GenrePill = styled.button<{$active?: boolean}>`
 const SearchField = styled.div`
   display: flex;
   align-items: center;
-  width: clamp(220px, 24vw, 310px);
-  min-width: 180px;
-  height: 32px;
-  margin-left: 2px;
-  padding: 0 12px;
+  width: clamp(190px, 18vw, 260px);
+  min-width: 170px;
+  height: 24px;
+  margin-left: 18px;
+  padding: 0 10px;
   border-radius: 999px;
-  background: #1a1b1b;
+  background: #181818;
   color: #656b69;
 
   svg {
     flex: 0 0 auto;
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
   }
 
   @media (max-width: 900px) {
@@ -198,8 +198,8 @@ const SearchInput = styled.input`
 const ClearSearchButton = styled.button`
   display: grid;
   flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   place-items: center;
   border: 0;
   padding: 0;
@@ -209,13 +209,13 @@ const ClearSearchButton = styled.button`
   cursor: pointer;
 
   svg {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
   }
 
   &:hover {
     color: #f0f3f2;
-    background: #272a29;
+    background: #242424;
   }
 
   &:focus-visible {

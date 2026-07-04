@@ -53,7 +53,7 @@ const StatusMessage = styled.p`
   margin: 0;
   place-items: center;
   border-radius: 8px;
-  background: #101112;
+  background: #0f0f0f;
   color: #a7adaa;
   font-size: 16px;
 `
@@ -79,7 +79,7 @@ const BandCard = styled.li`
   overflow: hidden;
   min-width: 0;
   border-radius: 7px;
-  background: #020303;
+  background: #000;
 `
 
 const BandImage = styled.img`
@@ -87,7 +87,7 @@ const BandImage = styled.img`
   width: 100%;
   aspect-ratio: 16 / 7.8;
   object-fit: cover;
-  background: #151616;
+  background: #181818;
 `
 
 const BandContent = styled.div`
@@ -107,9 +107,10 @@ const BandMeta = styled.p`
   flex-wrap: wrap;
   gap: 4px 8px;
   margin: 0 0 16px;
-  color: #f0f3f2;
-  font-size: 12px;
-  line-height: 1.35;
+  color: #cbcbcb;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
 
   span {
     color: #8f9693;
@@ -125,7 +126,8 @@ const BandMeta = styled.p`
 
 const BandDescription = styled.p`
   margin: 0;
-  color: #9ba29f;
-  font-size: 12px;
-  line-height: 1.55;
+  color: #9c9c9c;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
 `

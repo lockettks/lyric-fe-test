@@ -79,7 +79,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     min-width: 320px;
-    background: #040505;
+    background: #181818;
     color: #f4f7f5;
     font-family:
       Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -95,7 +95,7 @@ const GlobalStyle = createGlobalStyle`
 const AppShell = styled.div`
   min-height: 100vh;
   padding: 24px;
-  background: #050606;
+  background: #181818;
 
   @media (max-width: 720px) {
     padding: 14px;
@@ -134,7 +134,7 @@ const RestorePanelButton = styled.button`
   padding: 0 14px;
   border-radius: 999px;
   background: #1a1b1b;
-  color: #d5dcda;
+  color: #d6d6d6;
   font-size: 14px;
   cursor: pointer;
 
@@ -144,7 +144,7 @@ const RestorePanelButton = styled.button`
   }
 
   &:hover {
-    background: #242827;
+    background: #242424;
     color: #f0f3f2;
   }
 

@@ -50,7 +50,7 @@ const Panel = styled.aside`
   min-height: calc(100vh - 112px);
   padding: 28px 24px 24px;
   border-radius: 8px;
-  background: #111213;
+  background: #0f0f0f;
   color: #a7adaa;
 
   @media (max-width: 980px) {
@@ -113,7 +113,7 @@ const ComingSoon = styled.div`
   margin-top: 30px;
   padding: 18px 16px;
   border-radius: 7px;
-  background: #191a1a;
+  background: #1c1c1c;
 
   svg {
     width: 58px;
