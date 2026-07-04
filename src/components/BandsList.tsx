@@ -28,9 +28,9 @@ export const BandsList = ({bands, loading, error}: BandsListProps) => {
             src={band.imageUrl}
             alt={`${band.bandName} artwork`}
             onError={({currentTarget}) => {
-              if (currentTarget.src.endsWith('/sources/default.png')) return
-
-              currentTarget.src = '/sources/default.png'
+              const fallbackImage = `${import.meta.env.BASE_URL}sources/default.png`
+              if (currentTarget.src.endsWith(fallbackImage)) return
+              currentTarget.src = fallbackImage
             }}
           />
           <BandContent>

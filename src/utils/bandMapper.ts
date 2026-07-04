@@ -8,5 +8,5 @@ export const bandMapper = (band: RawBand, detail?: BandDetail | null): Band => (
   album: band.album,
   genre: band.genre,
   description: detail?.description ?? DEFAULT_DESCRIPTION,
-  imageUrl: `/sources/im${band.id}.png`,
+  imageUrl: `${import.meta.env.BASE_URL}sources/im${band.id}.png`,
 })
